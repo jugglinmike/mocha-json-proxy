@@ -23,10 +23,9 @@ Runnable.prototype = {
     return this._slow;
   },
 
-  // TODO: Clean this up.
   fullTitle: function() {
     var title = '';
-    if (this.parent instanceof Runnable) {
+    if (this.parent) {
       title = this.parent.fullTitle();
       if (title) {
         title += ' ';
