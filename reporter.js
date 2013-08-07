@@ -15,7 +15,7 @@ var EVENTS = [
   'end'
 ];
 
-var ALLOWED_OBJECTS = ['err'];
+var ALLOWED_OBJECTS = ['err', 'parent'];
 
 function write(event, content) {
   var args = Array.prototype.slice.call(arguments);

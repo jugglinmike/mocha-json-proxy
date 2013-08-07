@@ -23,12 +23,17 @@ Runnable.prototype = {
     return this._slow;
   },
 
+  // TODO: Clean this up.
   fullTitle: function() {
-    if (this.parent) {
-      var full = this.parent.fullTitle();
-      if (full) return full + ' ' + this.title;
+    var title = '';
+    if (this.parent instanceof Runnable) {
+      title = this.parent.fullTitle();
+      if (title) {
+        title += ' ';
+      }
     }
-    return this.title;
+    title += this.title;
+    return title;
   }
 };
 
@@ -92,20 +97,16 @@ Consumer.prototype = {
       });
     }
 
+    if (ref.parent) {
+      ref.parent = this.referenceObject('suite', ref.parent);
+    }
+
     return ref;
   },
 
   transformEvent: function(event) {
     var name = event[0];
     var runnable = event[1] = this.referenceObject(name, event[1]);
-
-    if (
-      name === 'suite' ||
-      name === 'test' ||
-      name === 'pending'
-    ) {
-      runnable.parent = this._suiteStack[this._suiteStack.length - 1];
-    }
 
     if (name === 'suite') {
       this._suiteStack.push(runnable);
